@@ -1,177 +1,288 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+
+// Classe para estruturar as falas da introdução
+[System.Serializable]
+public class DialogueLine
+{
+    public string speaker;
+    [TextArea(2, 5)]
+    public string text;
+}
 
 public class QuizManager : MonoBehaviour
 {
-    [Header("Pontuação")]
-    public int xpMaximo = 50;  // Acerto de primeira
-    public int xpRecuperacao = 20; // Acerto depois do Blinky
-
-    [Header("Referências")]
-    public QuizQuestion[] questions;
-    public DialogueManager dialogueManager;
+    [Header("Current Data (Do not fill manually)")]
+    // Essas listas agora são preenchidas pelo NPC automaticamente
+    public List<DialogueLine> introLines;
+    public List<QuestionData> questions;
+    public int xpToPass = 100;
     
-    [Header("UI - Pergunta")]
-    public GameObject quizButtonsPanel;
-    public Button[] answerButtons;
-
-    [Header("UI - Tela de Erro (Fundo Rosa)")]
-    public GameObject errorPanel; // O painel rosa que cobre tudo
-    public TextMeshProUGUI errorText; // "Você errou..."
-    public Button callBlinkyButton; // "Pedir ajuda (20 XP)"
-    public Button giveUpButton; // "Próxima Pergunta (0 XP)"
+    [Header("Visual Characters")]
+    public RectTransform ameRect;    
+    public RectTransform blinkyRect; 
+    public Image ameImage;           
+    public Image blinkyImage;
     
-    [Header("UI - Botão de Retorno")]
-    public Button returnToQuizButton; // Botão "Tentar Novamente" após a explicação
+    [Header("Name Boxes")]
+    public GameObject nameBoxLeft;   
+    public TextMeshProUGUI nameTextLeft;
+    public GameObject nameBoxCenter; 
+    public TextMeshProUGUI nameTextCenter;
 
-    // Estado Interno
-    private int currentIndex = 0;
-    private int currentXpValue = 0; // Quanto vale a pergunta AGORA
-    private bool isRetrying = false; // Se estamos na segunda chance
+    [Header("UI - Dialogue & Buttons")]
+    public GameObject dialogueBox;     
+    public TextMeshProUGUI mainText;   
+    public GameObject nextButton;      
+    public GameObject answerButtonsGroup; 
+    public Button[] answerButtons;     
 
-    void Start()
+    [Header("UI - Extra Panels")]
+    public GameObject errorPanel;
+    public GameObject resultPanel;
+    public TextMeshProUGUI resultText;
+
+    // Internal State
+    private int currentQuestionIdx = 0;
+    private int totalXP = 0;
+    private bool hasUsedHint = false;
+    private bool isBlinkyActive = false; 
+    
+    private int currentIntroIdx = 0;
+    private bool isIntroPlaying = false;
+
+    private Vector2 blinkyOriginalPos;
+
+    // --- NEW: CALLED BY THE NPC ---
+    public void StartConversation(List<DialogueLine> newIntroLines, List<QuestionData> newQuestions, int newXp)
     {
-        LoadQuestion(0);
+        // 1. Recebe os dados do NPC
+        introLines = newIntroLines;
+        questions = newQuestions;
+        xpToPass = newXp;
+
+        // 2. Liga a tela do Canvas
+        gameObject.SetActive(true); 
+
+        // 3. Salva a posição original do Blinky
+        if (blinkyRect != null && blinkyOriginalPos == Vector2.zero)
+            blinkyOriginalPos = blinkyRect.anchoredPosition;
+            
+        // 4. Decide se começa pela conversa ou vai direto pro Quiz
+        if (introLines != null && introLines.Count > 0)
+        {
+            StartIntro();
+        }
+        else
+        {
+            StartQuiz(); 
+        }
     }
 
-    public void LoadQuestion(int index)
+    // --- INTRO SYSTEM ---
+    private void StartIntro()
     {
-        if (index >= questions.Length) return; // Fim do Quiz
-
-        currentIndex = index;
+        isIntroPlaying = true;
+        currentIntroIdx = 0;
         
-        // Configuração Inicial da Pergunta
-        currentXpValue = xpMaximo; // Começa valendo 50
-        isRetrying = false;
-
-        // Limpa UI
+        dialogueBox.SetActive(true);
+        answerButtonsGroup.SetActive(false);
         errorPanel.SetActive(false);
-        returnToQuizButton.gameObject.SetActive(false);
+        resultPanel.SetActive(false);
         
-        // Mostra Pergunta
-        ShowQuestionUI();
+        PlayNextIntroLine();
     }
 
-    void ShowQuestionUI()
+    private void PlayNextIntroLine()
     {
-        quizButtonsPanel.SetActive(true);
-        
-        // Manda o texto para a Ana falar
-        ShowDialogue("Ana", questions[currentIndex].questionText, true);
+        // Se as falas acabaram, vai pro Quiz
+        if (currentIntroIdx >= introLines.Count)
+        {
+            isIntroPlaying = false;
+            StartQuiz();
+            return;
+        }
 
-        // Configura botões de resposta
+        ResetCharacterPositions(); 
+        nextButton.SetActive(true);
+        
+        DialogueLine line = introLines[currentIntroIdx];
+        
+        SetupSpeaker(line.speaker);
+        mainText.text = line.text;
+
+        nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        nextButton.GetComponent<Button>().onClick.AddListener(() => {
+            currentIntroIdx++;
+            PlayNextIntroLine();
+        });
+    }
+
+    // --- QUIZ SYSTEM ---
+    public void StartQuiz()
+    {
+        // Se NÃO houver perguntas (só conversa), fecha o diálogo e encerra
+        if (questions == null || questions.Count == 0)
+        {
+            CloseDialogue();
+            return;
+        }
+
+        currentQuestionIdx = 0;
+        totalXP = 0;
+        LoadQuestion();
+    }
+
+    private void LoadQuestion()
+    {
+        if (currentQuestionIdx >= questions.Count) 
+        { 
+            ShowResults(); 
+            return; 
+        }
+
+        hasUsedHint = false;
+        isBlinkyActive = false;
+
+        ResetCharacterPositions();
+        
+        dialogueBox.SetActive(true);
+        answerButtonsGroup.SetActive(false); 
+        nextButton.SetActive(true);          
+        errorPanel.SetActive(false);
+
+        SetupSpeaker("Ame"); 
+        mainText.text = questions[currentQuestionIdx].questionText;
+        
+        nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        nextButton.GetComponent<Button>().onClick.AddListener(ShowAnswers);
+    }
+
+    public void ShowAnswers()
+    {
+        if (isBlinkyActive)
+        {
+            LoadQuestion(); 
+            return;
+        }
+
+        nextButton.SetActive(false); 
+        answerButtonsGroup.SetActive(true); 
+
+        QuestionData q = questions[currentQuestionIdx];
         for (int i = 0; i < answerButtons.Length; i++)
         {
-            if (i < questions[currentIndex].answers.Length)
+            if (i < q.options.Length)
             {
                 answerButtons[i].gameObject.SetActive(true);
-                answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = questions[currentIndex].answers[i];
-                
+                answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = q.options[i];
                 int idx = i;
                 answerButtons[i].onClick.RemoveAllListeners();
-                answerButtons[i].onClick.AddListener(() => OnAnswerSelected(idx));
+                answerButtons[i].onClick.AddListener(() => CheckAnswer(idx));
             }
-            else
+            else 
             {
                 answerButtons[i].gameObject.SetActive(false);
             }
         }
     }
 
-    // --- LÓGICA DE RESPOSTA ---
-
-    void OnAnswerSelected(int index)
+    // --- HINT SYSTEM ---
+    public void AcceptHelp() 
     {
-        if (index == questions[currentIndex].correctAnswerIndex)
+        hasUsedHint = true;
+        isBlinkyActive = true;
+        errorPanel.SetActive(false);
+        dialogueBox.SetActive(true);
+        answerButtonsGroup.SetActive(false); 
+        nextButton.SetActive(true); 
+
+        MoveBlinkyToCenter();
+        SetupSpeaker("Blinky");
+        mainText.text = questions[currentQuestionIdx].blinkyHint;
+    }
+
+    private void MoveBlinkyToCenter()
+    {
+        if(ameImage != null) ameImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        if(blinkyImage != null) blinkyImage.color = Color.white;
+        
+        if (blinkyRect != null)
         {
-            // ACERTOU!
-            Debug.Log("Ganhou " + currentXpValue + " XP!");
-            
-            // Se quiser, Ana pode parabenizar antes de ir pro próximo
-            // LoadQuestion(currentIndex + 1); // Avança direto
-            ShowFeedbackAndAdvance(true);
+            blinkyRect.anchoredPosition = new Vector2(0, blinkyOriginalPos.y); 
+            blinkyRect.localScale = Vector3.one * 1.2f; 
+            blinkyRect.SetAsLastSibling();
+        }
+    }
+
+    private void ResetCharacterPositions()
+    {
+        if(ameImage != null) ameImage.color = Color.white;
+        if(blinkyImage != null) blinkyImage.color = new Color(0.5f, 0.5f, 0.5f, 1f); 
+        
+        if (blinkyRect != null)
+        {
+            blinkyRect.anchoredPosition = blinkyOriginalPos;
+            blinkyRect.localScale = Vector3.one * 0.9f;
+        }
+    }
+
+    private void SetupSpeaker(string speaker)
+    {
+        if (speaker == "Blinky")
+        {
+            nameBoxLeft.SetActive(false);
+            nameBoxCenter.SetActive(true); 
+            nameTextCenter.text = "Blinky Bunny";
         }
         else
         {
-            // ERROU!
-            if (!isRetrying)
-            {
-                // Se é a primeira vez que erra, vai para a tela do Blinky
-                ShowErrorScreen();
-            }
-            else
-            {
-                // Se já estava tentando de novo e errou (difícil acontecer se o Blinky der a resposta), perde tudo.
-                Debug.Log("Errou de novo. 0 XP.");
-                LoadQuestion(currentIndex + 1);
-            }
+            nameBoxLeft.SetActive(true); 
+            nameBoxCenter.SetActive(false);
+            nameTextLeft.text = speaker; 
         }
     }
 
-    void ShowFeedbackAndAdvance(bool acertou)
+    private void CheckAnswer(int idx)
     {
-         // Exemplo simples: Avança logo
-         LoadQuestion(currentIndex + 1);
+        if (idx == questions[currentQuestionIdx].correctIndex)
+        {
+            totalXP += hasUsedHint ? 20 : 50;
+            currentQuestionIdx++;
+            LoadQuestion();
+        }
+        else
+        {
+            if (!hasUsedHint) ShowErrorPanel();
+            else { currentQuestionIdx++; LoadQuestion(); } 
+        }
     }
 
-    // --- TELA DE ERRO / BLINKY ---
-
-    void ShowErrorScreen()
+    private void ShowErrorPanel()
     {
-        quizButtonsPanel.SetActive(false); // Esconde botões de resposta
-        errorPanel.SetActive(true); // Mostra tela rosa
-        
-        // Configura texto da Ana no Painel de Erro
-        errorText.text = "Infelizmente você errou!\nMas não se preocupe, posso te ensinar novamente valendo " + xpRecuperacao + " XP.";
-        
-        // Configura botões do painel rosa
-        callBlinkyButton.onClick.RemoveAllListeners();
-        callBlinkyButton.onClick.AddListener(AcceptBlinkyHelp);
-
-        giveUpButton.onClick.RemoveAllListeners();
-        giveUpButton.onClick.AddListener(GiveUpQuestion);
+        dialogueBox.SetActive(false); 
+        answerButtonsGroup.SetActive(false); 
+        errorPanel.SetActive(true);
+    }
+    
+    public void DeclineHelp() 
+    { 
+        currentQuestionIdx++; 
+        LoadQuestion(); 
     }
 
-    public void AcceptBlinkyHelp()
+    private void ShowResults()
     {
-        // Jogador aceitou ajuda
-        currentXpValue = xpRecuperacao; // Agora vale 20
-        isRetrying = true;
-        
-        errorPanel.SetActive(false); // Some painel de erro
-        
-        // Blinky aparece e explica
-        // Assumindo que isCenterCharacter existe no seu sistema de diálogo, senão use isLeft=false
-        ShowDialogue("Blinky", questions[currentIndex].blinkyExplanation, false);
-        
-        // Ativa o botão para voltar a responder depois de ler
-        returnToQuizButton.gameObject.SetActive(true);
+        dialogueBox.SetActive(false);
+        resultPanel.SetActive(true);
+        resultText.text = "XP Final: " + totalXP;
     }
 
-    public void GiveUpQuestion()
+    // --- CLOSE DIALOGUE ---
+    public void CloseDialogue()
     {
-        // Desistiu, ganha 0 e vai pro próximo
-        LoadQuestion(currentIndex + 1);
-    }
-
-    // Chamado pelo botão "Tentar Novamente" (ReturnButton)
-    public void ReturnToAnswer()
-    {
-        returnToQuizButton.gameObject.SetActive(false);
-        ShowQuestionUI(); // Mostra os botões de resposta de novo
-    }
-
-    // Auxiliar
-    void ShowDialogue(string name, string text, bool isLeft)
-    {
-        DialogueLine line = new DialogueLine();
-        line.characterName = name;
-        line.sentence = text;
-        line.isLeftCharacter = isLeft;
-        
-        Dialogue d = new Dialogue();
-        d.lines = new DialogueLine[] { line };
-        dialogueManager.StartDialogue(d);
+        gameObject.SetActive(false);
     }
 }
