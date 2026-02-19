@@ -1012,17 +1012,15 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2.140539, y: 0.90340394}
-  - {x: -2.1922054, y: 0.8283775}
-  - {x: -0.28803757, y: 0.83786756}
-  - {x: -0.22789519, y: 0.8322216}
-  - {x: -0.21904182, y: 0.85276204}
-  - {x: 2.2643557, y: 0.7979159}
-  - {x: 2.187449, y: -1.1524005}
-  - {x: 2.4367623, y: -1.1486766}
-  - {x: -2.2801187, y: -1.2031269}
-  - {x: -2.245767, y: 0.762997}
-  - {x: -2.2850304, y: 1.1349217}
+  - {x: 1.9069146, y: 0.6551916}
+  - {x: 1.9260116, y: -0.9754777}
+  - {x: -1.9263854, y: -0.9636022}
+  - {x: -1.9153295, y: 0.66507304}
+  - {x: -0.32208812, y: 0.65080714}
+  - {x: -0.33124584, y: 0.69375783}
+  - {x: 0.80280715, y: 0.72257435}
+  - {x: 0.7782425, y: 0.71470296}
+  - {x: 1.9199998, y: 0.67752767}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -3107,7 +3105,7 @@ GameObject:
   - component: {fileID: 1435938915}
   - component: {fileID: 1435938917}
   m_Layer: 0
-  m_Name: Ana_Feliz
+  m_Name: Ana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3154,7 +3152,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+  m_Sprite: {fileID: -319629777, guid: 896a8db2bdf40df41aee6a9b2a1eccfe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3174,8 +3172,8 @@ Transform:
   m_GameObject: {fileID: 1435938911}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.28, y: -1.05, z: -10.0647}
-  m_LocalScale: {x: 0.159992, y: 0.122740805, z: 1}
+  m_LocalPosition: {x: 1.38, y: -1.03, z: -10.0647}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3212,18 +3210,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16909885, y: -0.5730927}
+  m_Offset: {x: 0.0022816956, y: -0.030200034}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.16, y: 15.81}
+    oldSize: {x: 0.35, y: 0.35}
     newSize: {x: 6.16, y: 15.81}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8.527393, y: 16.956184}
+  m_Size: {x: 0.2262426, y: 0.30140352}
   m_EdgeRadius: 0
 --- !u!114 &1435938917
 MonoBehaviour:
@@ -4587,7 +4585,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 19ba670d9d1d3e44191d7e45cbe65655, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b727eac960c6afb4b8b0001feb53f360, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4607,8 +4605,8 @@ Transform:
   m_GameObject: {fileID: 1920212951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10.064698}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1.6062}
+  m_LocalPosition: {x: -0.35, y: 0, z: -10.064698}
+  m_LocalScale: {x: 4, y: 4, z: 1.6062}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4625,9 +4623,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6a67f9d2b031748ab50205e469cb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
   joystick: {fileID: 1601700015}
-  animator: {fileID: 0}
+  animator: {fileID: 1920212958}
 --- !u!61 &1920212957
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4660,18 +4658,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.001935035, y: 0.0038699806}
+  m_Offset: {x: -0.0046074875, y: 0.001197502}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
     newSize: {x: 0.4, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.40773994, y: 0.43808007}
+  m_Size: {x: 0.18325129, y: 0.34187064}
   m_EdgeRadius: 0
 --- !u!95 &1920212958
 Animator:
