@@ -1,288 +1,127 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; 
 using TMPro;
 using System.Collections.Generic;
 
-// Classe para estruturar as falas da introdução
 [System.Serializable]
 public class DialogueLine
 {
-    public string speaker;
+    public string speaker; 
     [TextArea(2, 5)]
-    public string text;
+    public string text;    
+    public Sprite characterSprite; // <-- NOVO: A imagem da expressão para esta fala!
 }
 
 public class QuizManager : MonoBehaviour
 {
-    [Header("Current Data (Do not fill manually)")]
-    // Essas listas agora são preenchidas pelo NPC automaticamente
-    public List<DialogueLine> introLines;
-    public List<QuestionData> questions;
-    public int xpToPass = 100;
-    
-    [Header("Visual Characters")]
-    public RectTransform ameRect;    
-    public RectTransform blinkyRect; 
-    public Image ameImage;           
-    public Image blinkyImage;
-    
-    [Header("Name Boxes")]
+    [Header("UI - Name Box Left (Ame)")]
     public GameObject nameBoxLeft;   
     public TextMeshProUGUI nameTextLeft;
-    public GameObject nameBoxCenter; 
-    public TextMeshProUGUI nameTextCenter;
-
-    [Header("UI - Dialogue & Buttons")]
+    
+    [Header("UI - Name Box Right (NPCs)")]
+    public GameObject nameBoxRight;       
+    public TextMeshProUGUI nameTextRight; 
+    
+    [Header("UI - Dialogue Box")]
     public GameObject dialogueBox;     
     public TextMeshProUGUI mainText;   
     public GameObject nextButton;      
-    public GameObject answerButtonsGroup; 
-    public Button[] answerButtons;     
 
-    [Header("UI - Extra Panels")]
-    public GameObject errorPanel;
-    public GameObject resultPanel;
-    public TextMeshProUGUI resultText;
+    [Header("UI - Esconder Quiz")]
+    public GameObject quizPanelToHide; 
 
-    // Internal State
-    private int currentQuestionIdx = 0;
-    private int totalXP = 0;
-    private bool hasUsedHint = false;
-    private bool isBlinkyActive = false; 
-    
-    private int currentIntroIdx = 0;
-    private bool isIntroPlaying = false;
+    [Header("Personagens Visuais (Animação)")]
+    public RectTransform ameRect;  
+    public Image ameImage;         
+    public RectTransform npcRect;  
+    public Image npcImage;         
 
-    private Vector2 blinkyOriginalPos;
+    // Variáveis Internas
+    private List<DialogueLine> currentLines; 
+    private int currentLineIndex = 0;        
 
-    // --- NEW: CALLED BY THE NPC ---
-    public void StartConversation(List<DialogueLine> newIntroLines, List<QuestionData> newQuestions, int newXp)
+    public void StartDialogue(List<DialogueLine> linesFromNPC)
     {
-        // 1. Recebe os dados do NPC
-        introLines = newIntroLines;
-        questions = newQuestions;
-        xpToPass = newXp;
+        currentLines = linesFromNPC;
+        currentLineIndex = 0; 
 
-        // 2. Liga a tela do Canvas
         gameObject.SetActive(true); 
-
-        // 3. Salva a posição original do Blinky
-        if (blinkyRect != null && blinkyOriginalPos == Vector2.zero)
-            blinkyOriginalPos = blinkyRect.anchoredPosition;
-            
-        // 4. Decide se começa pela conversa ou vai direto pro Quiz
-        if (introLines != null && introLines.Count > 0)
-        {
-            StartIntro();
-        }
-        else
-        {
-            StartQuiz(); 
-        }
-    }
-
-    // --- INTRO SYSTEM ---
-    private void StartIntro()
-    {
-        isIntroPlaying = true;
-        currentIntroIdx = 0;
-        
         dialogueBox.SetActive(true);
-        answerButtonsGroup.SetActive(false);
-        errorPanel.SetActive(false);
-        resultPanel.SetActive(false);
-        
-        PlayNextIntroLine();
-    }
-
-    private void PlayNextIntroLine()
-    {
-        // Se as falas acabaram, vai pro Quiz
-        if (currentIntroIdx >= introLines.Count)
-        {
-            isIntroPlaying = false;
-            StartQuiz();
-            return;
-        }
-
-        ResetCharacterPositions(); 
         nextButton.SetActive(true);
-        
-        DialogueLine line = introLines[currentIntroIdx];
-        
-        SetupSpeaker(line.speaker);
-        mainText.text = line.text;
 
-        nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
-        nextButton.GetComponent<Button>().onClick.AddListener(() => {
-            currentIntroIdx++;
-            PlayNextIntroLine();
-        });
+        if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
+
+        DisplayNextLine();
     }
 
-    // --- QUIZ SYSTEM ---
-    public void StartQuiz()
+    public void DisplayNextLine()
     {
-        // Se NÃO houver perguntas (só conversa), fecha o diálogo e encerra
-        if (questions == null || questions.Count == 0)
+        if (currentLineIndex < currentLines.Count)
         {
-            CloseDialogue();
-            return;
-        }
+            DialogueLine currentLine = currentLines[currentLineIndex];
 
-        currentQuestionIdx = 0;
-        totalXP = 0;
-        LoadQuestion();
-    }
-
-    private void LoadQuestion()
-    {
-        if (currentQuestionIdx >= questions.Count) 
-        { 
-            ShowResults(); 
-            return; 
-        }
-
-        hasUsedHint = false;
-        isBlinkyActive = false;
-
-        ResetCharacterPositions();
-        
-        dialogueBox.SetActive(true);
-        answerButtonsGroup.SetActive(false); 
-        nextButton.SetActive(true);          
-        errorPanel.SetActive(false);
-
-        SetupSpeaker("Ame"); 
-        mainText.text = questions[currentQuestionIdx].questionText;
-        
-        nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
-        nextButton.GetComponent<Button>().onClick.AddListener(ShowAnswers);
-    }
-
-    public void ShowAnswers()
-    {
-        if (isBlinkyActive)
-        {
-            LoadQuestion(); 
-            return;
-        }
-
-        nextButton.SetActive(false); 
-        answerButtonsGroup.SetActive(true); 
-
-        QuestionData q = questions[currentQuestionIdx];
-        for (int i = 0; i < answerButtons.Length; i++)
-        {
-            if (i < q.options.Length)
+            // SE A AME ESTIVER FALANDO
+            if (currentLine.speaker == "Ame")
             {
-                answerButtons[i].gameObject.SetActive(true);
-                answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = q.options[i];
-                int idx = i;
-                answerButtons[i].onClick.RemoveAllListeners();
-                answerButtons[i].onClick.AddListener(() => CheckAnswer(idx));
+                if (nameBoxLeft != null) nameBoxLeft.SetActive(true);
+                if (nameTextLeft != null) nameTextLeft.text = currentLine.speaker;
+                if (nameBoxRight != null) nameBoxRight.SetActive(false);
+
+                HighlightCharacter(ameRect, ameImage, true);
+                HighlightCharacter(npcRect, npcImage, false);
+
+                // TROCA A IMAGEM DA AME SE TIVER UMA NOVA NESSA FALA
+                if (currentLine.characterSprite != null && ameImage != null)
+                {
+                    ameImage.sprite = currentLine.characterSprite;
+                }
             }
+            // SE O NPC ESTIVER FALANDO
             else 
             {
-                answerButtons[i].gameObject.SetActive(false);
+                if (nameBoxRight != null) nameBoxRight.SetActive(true);
+                if (nameTextRight != null) nameTextRight.text = currentLine.speaker;
+                if (nameBoxLeft != null) nameBoxLeft.SetActive(false);
+
+                HighlightCharacter(ameRect, ameImage, false);
+                HighlightCharacter(npcRect, npcImage, true);
+
+                // TROCA A IMAGEM DO NPC SE TIVER UMA NOVA NESSA FALA
+                if (currentLine.characterSprite != null && npcImage != null)
+                {
+                    npcImage.sprite = currentLine.characterSprite;
+                }
+            }
+
+            mainText.text = currentLine.text;
+            currentLineIndex++;
+        }
+        else
+        {
+            EndDialogue();
+        }
+    }
+
+    private void HighlightCharacter(RectTransform rect, Image img, bool isSpeaking)
+    {
+        if (rect != null && img != null)
+        {
+            if (isSpeaking)
+            {
+                rect.localScale = new Vector3(1.1f, 1.1f, 1f); 
+                img.color = Color.white;
+                rect.SetAsLastSibling(); 
+            }
+            else
+            {
+                rect.localScale = new Vector3(0.9f, 0.9f, 1f); 
+                img.color = new Color(0.6f, 0.6f, 0.6f, 1f); 
             }
         }
     }
 
-    // --- HINT SYSTEM ---
-    public void AcceptHelp() 
+    private void EndDialogue()
     {
-        hasUsedHint = true;
-        isBlinkyActive = true;
-        errorPanel.SetActive(false);
-        dialogueBox.SetActive(true);
-        answerButtonsGroup.SetActive(false); 
-        nextButton.SetActive(true); 
-
-        MoveBlinkyToCenter();
-        SetupSpeaker("Blinky");
-        mainText.text = questions[currentQuestionIdx].blinkyHint;
-    }
-
-    private void MoveBlinkyToCenter()
-    {
-        if(ameImage != null) ameImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-        if(blinkyImage != null) blinkyImage.color = Color.white;
-        
-        if (blinkyRect != null)
-        {
-            blinkyRect.anchoredPosition = new Vector2(0, blinkyOriginalPos.y); 
-            blinkyRect.localScale = Vector3.one * 1.2f; 
-            blinkyRect.SetAsLastSibling();
-        }
-    }
-
-    private void ResetCharacterPositions()
-    {
-        if(ameImage != null) ameImage.color = Color.white;
-        if(blinkyImage != null) blinkyImage.color = new Color(0.5f, 0.5f, 0.5f, 1f); 
-        
-        if (blinkyRect != null)
-        {
-            blinkyRect.anchoredPosition = blinkyOriginalPos;
-            blinkyRect.localScale = Vector3.one * 0.9f;
-        }
-    }
-
-    private void SetupSpeaker(string speaker)
-    {
-        if (speaker == "Blinky")
-        {
-            nameBoxLeft.SetActive(false);
-            nameBoxCenter.SetActive(true); 
-            nameTextCenter.text = "Blinky Bunny";
-        }
-        else
-        {
-            nameBoxLeft.SetActive(true); 
-            nameBoxCenter.SetActive(false);
-            nameTextLeft.text = speaker; 
-        }
-    }
-
-    private void CheckAnswer(int idx)
-    {
-        if (idx == questions[currentQuestionIdx].correctIndex)
-        {
-            totalXP += hasUsedHint ? 20 : 50;
-            currentQuestionIdx++;
-            LoadQuestion();
-        }
-        else
-        {
-            if (!hasUsedHint) ShowErrorPanel();
-            else { currentQuestionIdx++; LoadQuestion(); } 
-        }
-    }
-
-    private void ShowErrorPanel()
-    {
-        dialogueBox.SetActive(false); 
-        answerButtonsGroup.SetActive(false); 
-        errorPanel.SetActive(true);
-    }
-    
-    public void DeclineHelp() 
-    { 
-        currentQuestionIdx++; 
-        LoadQuestion(); 
-    }
-
-    private void ShowResults()
-    {
-        dialogueBox.SetActive(false);
-        resultPanel.SetActive(true);
-        resultText.text = "XP Final: " + totalXP;
-    }
-
-    // --- CLOSE DIALOGUE ---
-    public void CloseDialogue()
-    {
-        gameObject.SetActive(false);
+        gameObject.SetActive(false); 
     }
 }

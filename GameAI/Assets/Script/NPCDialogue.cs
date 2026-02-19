@@ -3,37 +3,21 @@ using System.Collections.Generic;
 
 public class NPCDialogue : MonoBehaviour
 {
-    [Header("NPC/Object Texts")]
-    public List<DialogueLine> introLines;
-    
-    [Header("NPC Quiz (Leave empty if only conversation)")]
-    public List<QuestionData> quizQuestions;
-    public int xpToPass = 100;
+    [Header("Dialogue Content")]
+    public List<DialogueLine> lines; // A lista de falas
 
-    [Header("Drag QuizSystem here")]
-    public QuizManager quizManager;
+    [Header("UI Reference")]
+    public QuizManager dialogueManager; // Arraste o QuizSystem aqui
 
-    // 1. Ativa por aproximação (Trigger)
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Quando a Ame encostar, inicia o diálogo
         if (collision.CompareTag("Player"))
         {
-            StartConversation();
-        }
-    }
-
-    // 2. Ativa por clique (Mouse)
-    private void OnMouseDown()
-    {
-        StartConversation();
-    }
-
-    void StartConversation()
-    {
-        // Se a tela não estiver aberta, manda os dados para ela e abre!
-        if (quizManager != null && !quizManager.gameObject.activeSelf)
-        {
-            quizManager.StartConversation(introLines, quizQuestions, xpToPass);
+            if (dialogueManager != null && !dialogueManager.gameObject.activeSelf)
+            {
+                dialogueManager.StartDialogue(lines);
+            }
         }
     }
 }
