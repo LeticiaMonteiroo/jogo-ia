@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -9,7 +9,7 @@ public class DialogueLine
     public string speaker; 
     [TextArea(2, 5)]
     public string text;    
-    public Sprite characterSprite; // <-- NOVO: A imagem da expressão para esta fala!
+    public Sprite characterSprite; 
 }
 
 public class QuizManager : MonoBehaviour
@@ -26,6 +26,7 @@ public class QuizManager : MonoBehaviour
     public GameObject dialogueBox;     
     public TextMeshProUGUI mainText;   
     public GameObject nextButton;      
+    public GameObject backButton;      // <-- NOVO: O botão de voltar!
 
     [Header("UI - Esconder Quiz")]
     public GameObject quizPanelToHide; 
@@ -39,15 +40,20 @@ public class QuizManager : MonoBehaviour
     // Variáveis Internas
     private List<DialogueLine> currentLines; 
     private int currentLineIndex = 0;        
+    private NPCDialogue currentActiveNPC; 
 
-    public void StartDialogue(List<DialogueLine> linesFromNPC)
+    public void StartDialogue(List<DialogueLine> linesFromNPC, NPCDialogue npc)
     {
         currentLines = linesFromNPC;
         currentLineIndex = 0; 
+        currentActiveNPC = npc; 
 
         gameObject.SetActive(true); 
         dialogueBox.SetActive(true);
         nextButton.SetActive(true);
+        
+        // Esconde o botão de voltar na primeira fala
+        if (backButton != null) backButton.SetActive(false);
 
         if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
 
@@ -70,11 +76,8 @@ public class QuizManager : MonoBehaviour
                 HighlightCharacter(ameRect, ameImage, true);
                 HighlightCharacter(npcRect, npcImage, false);
 
-                // TROCA A IMAGEM DA AME SE TIVER UMA NOVA NESSA FALA
                 if (currentLine.characterSprite != null && ameImage != null)
-                {
                     ameImage.sprite = currentLine.characterSprite;
-                }
             }
             // SE O NPC ESTIVER FALANDO
             else 
@@ -86,19 +89,36 @@ public class QuizManager : MonoBehaviour
                 HighlightCharacter(ameRect, ameImage, false);
                 HighlightCharacter(npcRect, npcImage, true);
 
-                // TROCA A IMAGEM DO NPC SE TIVER UMA NOVA NESSA FALA
                 if (currentLine.characterSprite != null && npcImage != null)
-                {
                     npcImage.sprite = currentLine.characterSprite;
-                }
             }
 
             mainText.text = currentLine.text;
-            currentLineIndex++;
+            currentLineIndex++; // Prepara para a próxima fala
+
+            // LIGA O BOTÃO DE VOLTAR: Se já passamos da primeira fala, ele aparece!
+            if (backButton != null)
+            {
+                backButton.SetActive(currentLineIndex > 1);
+            }
         }
         else
         {
             EndDialogue();
+        }
+    }
+
+    // --- NOVA FUNÇÃO: VOLTAR O TEXTO ---
+    public void DisplayPreviousLine()
+    {
+        // Só volta se não estivermos na primeira fala
+        if (currentLineIndex > 1)
+        {
+            // Como o 'Next' soma 1 para o futuro, subtraímos 2 para ir para o passado
+            currentLineIndex -= 2; 
+            
+            // Manda exibir a fala novamente
+            DisplayNextLine(); 
         }
     }
 
@@ -120,8 +140,14 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    private void EndDialogue()
+    public void EndDialogue()
     {
         gameObject.SetActive(false); 
+
+        if (currentActiveNPC != null)
+        {
+            currentActiveNPC.OnDialogueFinished();
+            currentActiveNPC = null; 
+        }
     }
 }
