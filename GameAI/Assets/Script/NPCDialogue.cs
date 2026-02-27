@@ -7,11 +7,12 @@ public class NPCDialogue : MonoBehaviour
     [Header("Identificação de Save")]
     public string npcSaveID = "Ana_Fase1"; 
 
-    [Header("Dialogue Content")]
+    [Header("Dialogue Content (Conversa Normal)")]
     public List<DialogueLine> lines; 
 
-    [Header("Quiz Content (O que faremos depois)")]
-    // public List<QuizQuestion> quizQuestions; // Deixe comentado ou apague por enquanto se der erro
+    [Header("Quiz Content (O Quiz)")]
+    public List<DialogueLine> preQuizLines;  // <-- NOVO: A fala da Ana antes do Quiz
+    public List<QuizQuestion> quizQuestions; // As perguntas
 
     [Header("UI Reference")]
     public QuizManager dialogueManager; 
@@ -22,7 +23,7 @@ public class NPCDialogue : MonoBehaviour
     public Button quizButton;           
 
     [Header("Progresso do Jogador")]
-    public int xpRequiredForQuiz = 6;   // <-- NOVO: Quantidade de XP necessária para liberar!
+    public int xpRequiredForQuiz = 6;   
     public bool isQuizUnlocked = false; 
 
     [Header("XP System")]
@@ -31,61 +32,37 @@ public class NPCDialogue : MonoBehaviour
 
     private void Start()
     {
-        if (interactionPanel != null) 
-        {
-            interactionPanel.SetActive(false);
-        }
-
-        if (PlayerPrefs.GetInt(npcSaveID + "_HasGivenXP", 0) == 1)
-        {
-            hasGivenXP = true;
-        }
+        if (interactionPanel != null) interactionPanel.SetActive(false);
+        if (PlayerPrefs.GetInt(npcSaveID + "_HasGivenXP", 0) == 1) hasGivenXP = true;
     }
 
-    // 1. Quando a Ame ENTRA na área da Ana
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            // --- A MÁGICA DO DESBLOQUEIO ---
-            // A Ana pergunta ao XPManager se a Ame já tem 6 ou mais de XP
             if (XPManager.instance != null && XPManager.instance.currentXP >= xpRequiredForQuiz)
-            {
-                isQuizUnlocked = true; // Libera o Quiz!
-            }
+                isQuizUnlocked = true; 
 
-            // Liga o menu de botões
             if (interactionPanel != null)
             {
                 interactionPanel.SetActive(true);
-                
-                // Define se o botão do Quiz pode ser clicado (brilhante) ou não (apagado)
-                if (quizButton != null)
-                {
-                    quizButton.interactable = isQuizUnlocked; 
-                }
+                if (quizButton != null) quizButton.interactable = isQuizUnlocked; 
             }
         }
     }
 
-    // 2. Quando a Ame SAI da área da Ana
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (interactionPanel != null)
-            {
-                interactionPanel.SetActive(false);
-            }
+            if (interactionPanel != null) interactionPanel.SetActive(false);
         }
     }
 
-    // --- FUNÇÕES DOS BOTÕES ---
     public void OnTalkClicked()
     {
         interactionPanel.SetActive(false); 
-
-        if (dialogueManager != null && !dialogueManager.gameObject.activeSelf)
+        if (dialogueManager != null)
         {
             dialogueManager.StartDialogue(lines, this); 
         }
@@ -94,11 +71,13 @@ public class NPCDialogue : MonoBehaviour
     public void OnQuizClicked()
     {
         if (!isQuizUnlocked) return; 
-
         interactionPanel.SetActive(false); 
         
-        // Por enquanto, apenas avisa no console que funcionou!
-        Debug.Log("O botão do Quiz foi clicado! A Ame tem " + XPManager.instance.currentXP + " de XP."); 
+        if (dialogueManager != null)
+        {
+            // MUDOU AQUI: Passamos a fala introdutória E as perguntas!
+            dialogueManager.StartQuiz(preQuizLines, quizQuestions, this); 
+        }
     }
 
     public void OnDialogueFinished()
@@ -107,18 +86,13 @@ public class NPCDialogue : MonoBehaviour
         {
             XPManager.instance.AddXP(xpForTalking);
             hasGivenXP = true;
-            
             PlayerPrefs.SetInt(npcSaveID + "_HasGivenXP", 1);
             PlayerPrefs.Save();
         }
     }
 
-    // Função para o botão "X" do Menu de Interação
     public void CloseInteraction()
     {
-        if (interactionPanel != null)
-        {
-            interactionPanel.SetActive(false);
-        }
+        if (interactionPanel != null) interactionPanel.SetActive(false);
     }
 }
