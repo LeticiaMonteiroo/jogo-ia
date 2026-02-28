@@ -57,11 +57,14 @@ public class QuizManager : MonoBehaviour
     private bool isStartingQuiz = false; 
     private List<QuizQuestion> currentQuiz;
     private int currentQuestionIndex = 0;
+    
+    // Variáveis de controle do Quiz
     private bool usedBlinkyOnCurrent = false;
+    private int currentQuestionAttempts = 0; 
     public int totalScore = 0; 
     
-    // A MÁQUINA DE ESTADOS COMPLETA
-    private enum QuizState { None, Question, WrongAna, AskHelp, AmeAsking, BlinkyExplaining, CorrectAna }
+    // Máquina de estados
+    private enum QuizState { None, Question, WrongAna, AskHelp, AmeAsking, BlinkyExplaining, CorrectAna, FailedAna, EndSummary, EndResult }
     private QuizState quizState = QuizState.None;
 
     public void StartDialogue(List<DialogueLine> linesFromNPC, NPCDialogue npc)
@@ -107,7 +110,6 @@ public class QuizManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        // Puxa o quiz se a introdução acabou
         if (isStartingQuiz)
         {
             isStartingQuiz = false;
@@ -144,6 +146,8 @@ public class QuizManager : MonoBehaviour
     {
         isQuizMode = true;
         currentQuestionIndex = 0;
+        usedBlinkyOnCurrent = false; 
+        currentQuestionAttempts = 0; 
         gameObject.SetActive(true);
         ShowQuestion();
     }
@@ -151,7 +155,8 @@ public class QuizManager : MonoBehaviour
     private void ShowQuestion()
     {
         quizState = QuizState.Question;
-        usedBlinkyOnCurrent = false;
+        
+        if (blinkyRect != null) blinkyRect.gameObject.SetActive(false);
 
         if (dialogueBox != null) dialogueBox.SetActive(false);
         if (quizPanelToHide != null) quizPanelToHide.SetActive(true);
@@ -172,34 +177,38 @@ public class QuizManager : MonoBehaviour
         }
         else
         {
-            EndDialogue(); // Fecha tudo quando o Quiz acaba
+            // O QUIZ ACABOU! Mostra a tela de resumo de pontos
+            quizState = QuizState.EndSummary;
+            
+            if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
+            if (dialogueBox != null) dialogueBox.SetActive(true);
+            
+            SetQuizSpeaker("Ana");
+            if (mainText != null) mainText.text = "Chegamos ao fim do nosso quiz, Ame! Você conseguiu " + totalScore + " XP e para passar da fase precisa de 100 XP.";
+            
+            if (nextButton != null) nextButton.SetActive(true); 
         }
     }
 
-   public void OnNextClicked()
+    public void OnNextClicked()
     {
         if (!isQuizMode) { DisplayNextLine(); return; }
 
-        if (quizState == QuizState.CorrectAna)
+        if (quizState == QuizState.CorrectAna || quizState == QuizState.FailedAna)
         {
-            currentQuestionIndex++; // Acertou, vai pra próxima pergunta
+            currentQuestionIndex++; 
+            usedBlinkyOnCurrent = false; 
+            currentQuestionAttempts = 0; 
             ShowQuestion();
         }
         else if (quizState == QuizState.WrongAna)
         {
-            // ERROU! Passo 2: O jogador clicou na seta, então a Ana oferece ajuda
             quizState = QuizState.AskHelp;
             SetQuizSpeaker("Ana");
-            
-            // --- AS DUAS MUDANÇAS AQUI ---
-            // 1. Esvazia o texto principal para ele não sobrepor o texto do seu ErrorPanel
             if (mainText != null) mainText.text = ""; 
-            // 2. Esconde a setinha de Voltar (BackButton)
             if (backButton != null) backButton.SetActive(false); 
+            if (nextButton != null) nextButton.SetActive(false); 
             
-            if (nextButton != null) nextButton.SetActive(false); // Esconde a setinha de avançar
-            
-            // Prepara a tela: Liga o seu ErrorPanel e esconde o resto
             if (quizPanelToHide != null) quizPanelToHide.SetActive(true);
             if (quizQuestionText != null) quizQuestionText.gameObject.SetActive(false); 
             if (answerButtonsPanel != null) answerButtonsPanel.SetActive(false);        
@@ -208,13 +217,54 @@ public class QuizManager : MonoBehaviour
         else if (quizState == QuizState.AmeAsking)
         {
             quizState = QuizState.BlinkyExplaining;
+            
+            if (blinkyRect != null) blinkyRect.gameObject.SetActive(true);
+            if (ameRect != null) ameRect.gameObject.SetActive(true);
+            if (npcRect != null) npcRect.gameObject.SetActive(true);
+            
             SetQuizSpeaker("Blinky");
-            mainText.text = currentQuiz[currentQuestionIndex].blinkyHint;
+            if (mainText != null) mainText.text = currentQuiz[currentQuestionIndex].blinkyHint;
+            if (nextButton != null) nextButton.SetActive(true);
         }
         else if (quizState == QuizState.BlinkyExplaining)
         {
-            ShowQuestion(); 
             usedBlinkyOnCurrent = true;
+            if (blinkyRect != null) blinkyRect.gameObject.SetActive(false);
+            ShowQuestion(); 
+        }
+        else if (quizState == QuizState.EndSummary)
+        {
+            quizState = QuizState.EndResult;
+            SetQuizSpeaker("Ana");
+            
+            if (totalScore >= 100)
+            {
+                if (mainText != null) mainText.text = "Parabéns, Ame! Você demonstrou um domínio excepcional e conquistou " + totalScore + " XP. É com muito orgulho que anuncio sua promoção oficial para Desenvolvedora Pleno! O seu futuro é brilhante!";
+            }
+            else
+            {
+                if (mainText != null) mainText.text = "Infelizmente é necessário ao menos 100 XP para que você possa ser promovida.";
+            }
+        }
+        else if (quizState == QuizState.EndResult)
+        {
+            // --- ATUALIZA A BARRA VISUAL DO JOGO AQUI NO FINAL! ---
+            int barrasGanhas = 0;
+            
+            // Lógica conforme você pediu:
+            if (totalScore >= 100) barrasGanhas = 4;      // Passou o quiz (4 barras ou mais)
+            else if (totalScore >= 70) barrasGanhas = 3;  // Conseguiu 70 XP (3 barras)
+            else if (totalScore >= 50) barrasGanhas = 2;  // Conseguiu 50 XP (2 barras)
+            else if (totalScore >= 20) barrasGanhas = 1;  // Conseguiu 20 XP (1 barra)
+
+            // Se o jogador ganhou alguma barra visual, adiciona tudo de uma vez
+            if (XPManager.instance != null && barrasGanhas > 0)
+            {
+                XPManager.instance.AddXP(barrasGanhas);
+            }
+
+            // Fecha o diálogo e encerra o jogo
+            EndDialogue();
         }
     }
 
@@ -224,33 +274,46 @@ public class QuizManager : MonoBehaviour
 
         if (optionIndex == currentQuiz[currentQuestionIndex].correctAnswer)
         {
-            // ACERTOU! 
             int xpGanho = usedBlinkyOnCurrent ? 20 : 50;
             totalScore += xpGanho; 
-            XPManager.instance.AddXP(1); 
+            
+            // REMOVIDO: XPManager.instance.AddXP(1); <- A barra global não sobe mais aqui!
             
             quizState = QuizState.CorrectAna;
             if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
             if (dialogueBox != null) dialogueBox.SetActive(true);
             
             SetQuizSpeaker("Ana");
-            mainText.text = "Isso mesmo! Você ganhou " + xpGanho + " XP!";
+            if (mainText != null) mainText.text = "Isso mesmo! Você ganhou " + xpGanho + " XP!";
             if (nextButton != null) nextButton.SetActive(true);
         }
         else
         {
-            // ERROU! Passo 1: Esconde o Quiz, liga a caixa rosa com o aviso da Ana
-            quizState = QuizState.WrongAna;
-            
-            if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
-            if (dialogueBox != null) dialogueBox.SetActive(true);
-            
-            SetQuizSpeaker("Ana");
-            mainText.text = "Poxa, infelizmente você errou, mas não se preocupe!";
-            
-            if (nextButton != null) nextButton.SetActive(true); // Mostra a setinha
+            currentQuestionAttempts++; 
+
+            if (currentQuestionAttempts >= 2)
+            {
+                quizState = QuizState.FailedAna;
+                if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
+                if (dialogueBox != null) dialogueBox.SetActive(true);
+                
+                SetQuizSpeaker("Ana");
+                if (mainText != null) mainText.text = "Infelizmente você errou novamente. Vamos para a próxima pergunta.";
+                if (nextButton != null) nextButton.SetActive(true);
+            }
+            else
+            {
+                quizState = QuizState.WrongAna;
+                if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
+                if (dialogueBox != null) dialogueBox.SetActive(true);
+                
+                SetQuizSpeaker("Ana");
+                if (mainText != null) mainText.text = "Poxa, infelizmente você errou, mas não se preocupe!";
+                if (nextButton != null) nextButton.SetActive(true);
+            }
         }
     }
+
     public void OnCallBlinky()
     {
         if (errorPanel != null) errorPanel.SetActive(false);
@@ -260,7 +323,7 @@ public class QuizManager : MonoBehaviour
         if (dialogueBox != null) dialogueBox.SetActive(true);
 
         SetQuizSpeaker("Ame");
-        mainText.text = "Quero ajuda do Blinky Bunny, por favor!";
+        if (mainText != null) mainText.text = "Quero ajuda do Blinky Bunny, por favor!";
         if (nextButton != null) nextButton.SetActive(true);
     }
 
@@ -268,6 +331,8 @@ public class QuizManager : MonoBehaviour
     {
         if (errorPanel != null) errorPanel.SetActive(false);
         currentQuestionIndex++;
+        usedBlinkyOnCurrent = false; 
+        currentQuestionAttempts = 0; 
         ShowQuestion();
     }
 
@@ -307,12 +372,41 @@ public class QuizManager : MonoBehaviour
         {
             if (isSpeaking)
             {
-                rect.localScale = new Vector3(1.1f, 1.1f, 1f); img.color = Color.white; rect.SetAsLastSibling(); 
+                rect.localScale = new Vector3(1.1f, 1.1f, 1f); 
+                img.color = Color.white; 
+                rect.SetAsLastSibling(); 
             }
             else
             {
-                rect.localScale = new Vector3(0.9f, 0.9f, 1f); img.color = new Color(0.6f, 0.6f, 0.6f, 1f); 
+                rect.localScale = new Vector3(0.9f, 0.9f, 1f); 
+                img.color = new Color(0.6f, 0.6f, 0.6f, 1f); 
             }
+        }
+    }
+
+    // --- FUNÇÃO PARA O BOTÃO DE FECHAR (X REDONDO) ---
+    public void ForceCloseDialogue()
+    {
+        // 1. Reseta todas as variáveis de segurança para o próximo jogo não bugar
+        isQuizMode = false;
+        isStartingQuiz = false;
+        quizState = QuizState.None;
+        currentQuestionIndex = 0;
+        totalScore = 0;
+        currentQuestionAttempts = 0;
+
+        // 2. Desliga os painéis para a tela começar limpa na próxima vez
+        if (quizPanelToHide != null) quizPanelToHide.SetActive(false);
+        if (dialogueBox != null) dialogueBox.SetActive(false);
+        
+        // 3. Desliga a tela inteira (Fecha o Canvas)
+        gameObject.SetActive(false); 
+        
+        // 4. Avisa o personagem/jogo que a interação acabou
+        if (currentActiveNPC != null)
+        {
+            currentActiveNPC.OnDialogueFinished();
+            currentActiveNPC = null; 
         }
     }
 }
