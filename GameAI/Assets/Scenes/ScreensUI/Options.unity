@@ -902,6 +902,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1657972452}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &477440966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,6 +952,129 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477440963}
   m_CullTransparentMesh: 1
+--- !u!1 &646992381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 646992382}
+  - component: {fileID: 646992384}
+  - component: {fileID: 646992383}
+  - component: {fileID: 646992386}
+  - component: {fileID: 646992385}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &646992382
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646992381}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1012264676}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &646992383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646992381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a6df6fadba7c7b44ba434cde2020cd3f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &646992384
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646992381}
+  m_CullTransparentMesh: 1
+--- !u!114 &646992385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646992381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 500
+  m_MinHeight: 500
+  m_PreferredWidth: 500
+  m_PreferredHeight: 500
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!114 &646992386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646992381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &794879898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,6 +1187,138 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937862167}
   m_CullTransparentMesh: 1
+--- !u!1 &975497222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975497223}
+  - component: {fileID: 975497226}
+  - component: {fileID: 975497225}
+  - component: {fileID: 975497224}
+  m_Layer: 5
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &975497223
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975497222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1812279498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1156, y: 580}
+  m_SizeDelta: {x: 160, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &975497224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975497222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 975497225}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657972452}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &975497225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975497222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: d8982130bd9a1e64e8345180bba8661a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &975497226
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975497222}
+  m_CullTransparentMesh: 1
 --- !u!1 &1012264675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1012264676}
+  - component: {fileID: 1012264677}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -1081,13 +1349,40 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1978517992}
+  - {fileID: 646992382}
   m_Father: {fileID: 346133189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.5, y: 0}
-  m_SizeDelta: {x: 1, y: 2000}
+  m_SizeDelta: {x: 1, y: 3100}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1012264677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012264675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 40
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1143894218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,7 +1842,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2085946112}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.37808764
+  m_Size: 0.24392751
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1951,8 +2246,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1148, y: -361}
-  m_SizeDelta: {x: 161.4827, y: 151.5726}
+  m_AnchoredPosition: {x: -1156, y: 470}
+  m_SizeDelta: {x: 160, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1682792550
 MonoBehaviour:
@@ -2030,7 +2325,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: eae9bb01f5c704a4ab82d1206a94fc19, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8982130bd9a1e64e8345180bba8661a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2315,7 +2610,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 975497223}
   m_Father: {fileID: 1657972453}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2515,10 +2811,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1012264676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.01233, y: 600.2}
-  m_SizeDelta: {x: 1956.2096, y: 717.92}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1978517993
 MonoBehaviour:
@@ -2569,42 +2865,22 @@ MonoBehaviour:
   m_text: "Este jogo \xE9 uma iniciativa da equipe de Jogos do projeto Meninas.comp,
     criado em 2010 por professoras da \xE1rea de Ci\xEAncia da Computa\xE7\xE3o com
     a miss\xE3o de enfrentar a baixa representatividade feminina na tecnologia. Ao
-    perceberem que poucas \xEAncia da Computa\xE7\xE3o com a miss\xE3o de enfrentar
-    a baixa representatividade feminina na tecnologia. Ao perceberem que poucas mulheres
-    ingressavam e permaneciam nos cursos da \xE1rea, as idealizadoras decidiram agir,
-    promovendo a\xE7\xF5es em escolas e universidades por meio de oficinas, palestras,
-    rob\xF3tica e programa\xE7\xE3o, s\xEAncia da Computa\xE7\xE3o com a miss\xE3o
-    de enfrentar a baixa representatividade feminina na tecnologia. Ao perceberem
-    que poucas mulheres ingressavam e permaneciam nos cursos da \xE1rea, as idealizadoras
-    decidiram agir, promovendo a\xE7\xF5es em escolas e universidades por meio de
-    oficinas, palestras, rob\xF3tica e programa\xE7\xE3o, s\xEAncia da Computa\xE7\xE3o
-    com a miss\xE3o de enfrentar a baixa representatividade feminina na tecnologia.
-    Ao perceberem que poucas mulheres ingressavam e permaneciam nos cursos da \xE1rea,
+    perceberem que poucas mulheres ingressavam e permaneciam nos cursos da \xE1rea,
     as idealizadoras decidiram agir, promovendo a\xE7\xF5es em escolas e universidades
-    por meio de oficinas, palestras, rob\xF3tica e programa\xE7\xE3o, s\xEAncia da
-    Computa\xE7\xE3o com a miss\xE3o de enfrentar a baixa representatividade feminina
-    na tecnologia. Ao perceberem que poucas mulheres ingressavam e permaneciam nos
-    cursos da \xE1rea, as idealizadoras decidiram agir, promovendo a\xE7\xF5es em
-    escolas e universidades por meio de oficinas, palestras, rob\xF3tica e programa\xE7\xE3o,
-    s\xEAncia da Computa\xE7\xE3o com a miss\xE3o de enfrentar a baixa representatividade
-    feminina na tecnologia. Ao perceberem que poucas mulheres ingressavam e permaneciam
-    nos cursos da \xE1rea, as idealizadoras decidiram agir, promovendo a\xE7\xF5es
-    em escolas e universidades por meio de oficinas, palestras, rob\xF3tica e programa\xE7\xE3o,
-    s ingressavam e permaneciam nos cursos da \xE1rea, as idealizadoras decidiram
-    agir, promovendo a\xE7\xF5es em escolas e universidades por meio de oficinas,
-    palestras, rob\xF3tica e programa\xE7\xE3o, sempre com uma abordagem criativa
-    e inspiradora.\r\n\r\n\xC9 dentro dessa miss\xE3o que nasce o jogo, unindo narrativa,
-    aprendizado e interatividade para mostrar que tecnologia tamb\xE9m \xE9 lugar
-    de menina. A hist\xF3ria acompanha Ame, uma jovem que inicia sua jornada no universo
-    da Intelig\xEAncia Artificial e passa a compreender n\xE3o apenas como a tecnologia
-    funciona, mas tamb\xE9m seus impactos \xE9ticos e sociais. Ao longo da experi\xEAncia,
-    a jogadora explora ambientes, interage com personagens, resolve desafios e participa
-    de quizzes que refor\xE7am o aprendizado de forma leve e envolvente.\r\n\r\nPensado
-    especialmente para adolescentes do Ensino Fundamental e M\xE9dio, o jogo estimula
-    curiosidade, pensamento cr\xEDtico e autoconfian\xE7a, incentivando meninas a
-    se enxergarem como protagonistas na \xE1rea da tecnologia. Mais do que entretenimento,
-    ele \xE9 uma ferramenta educativa que transforma a experi\xEAncia de jogar em
-    uma oportunidade de aprender, refletir e se inspirar.\n"
+    por meio de oficinas, palestras, rob\xF3tica e programa\xE7\xE3o, sempre com
+    uma abordagem criativa e inspiradora.\r\n\r\n\xC9 dentro dessa miss\xE3o que
+    nasce o jogo, unindo narrativa, aprendizado e interatividade para mostrar que
+    tecnologia tamb\xE9m \xE9 lugar de menina. A hist\xF3ria acompanha Ame, uma jovem
+    que inicia sua jornada no universo da Intelig\xEAncia Artificial e passa a compreender
+    n\xE3o apenas como a tecnologia funciona, mas tamb\xE9m seus impactos \xE9ticos
+    e sociais. Ao longo da experi\xEAncia, a jogadora explora ambientes, interage
+    com personagens, resolve desafios e participa de quizzes que refor\xE7am o aprendizado
+    de forma leve e envolvente.\r\n\r\nPensado especialmente para adolescentes do
+    Ensino Fundamental e M\xE9dio, o jogo estimula curiosidade, pensamento cr\xEDtico
+    e autoconfian\xE7a, incentivando meninas a se enxergarem como protagonistas na
+    \xE1rea da tecnologia. Mais do que entretenimento, ele \xE9 uma ferramenta educativa
+    que transforma a experi\xEAncia de jogar em uma oportunidade de aprender, refletir
+    e se inspirar."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 10c202fafc7ab8d44a350dd9ff4eaaed, type: 2}
   m_sharedMaterial: {fileID: -2678200201341476110, guid: 10c202fafc7ab8d44a350dd9ff4eaaed, type: 2}
