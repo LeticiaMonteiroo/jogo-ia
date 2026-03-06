@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Phase_1/Phase_1.unity
     guid: cbe2b991dc16a8d468e32b65cdb94d96
+  - enabled: 1
+    path: Assets/Scenes/ScreensUI/Temporary.unity
+    guid: d3825407093906f4fb897584074c9d4c
   m_configObjects: {}

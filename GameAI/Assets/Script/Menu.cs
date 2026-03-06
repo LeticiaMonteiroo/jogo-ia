@@ -9,6 +9,11 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Phase_1");
     }
 
+    public void GoToTemporary()
+    {
+        SceneManager.LoadScene("Temporary");
+    }
+
     
     public void GoToOptions()
     {
