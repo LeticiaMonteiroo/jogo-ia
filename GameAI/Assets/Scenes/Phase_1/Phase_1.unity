@@ -1192,7 +1192,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &148993949
 MonoBehaviour:
@@ -1244,9 +1244,9 @@ MonoBehaviour:
   m_fontSize: 50
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4160,8 +4160,8 @@ MonoBehaviour:
   m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 10
+  m_fontSizeMax: 54
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -7207,7 +7207,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1421030408
 MonoBehaviour:
@@ -7259,9 +7259,9 @@ MonoBehaviour:
   m_fontSize: 50
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -7454,17 +7454,17 @@ MonoBehaviour:
   - speaker: Ana
     text: "Ol\xE1! Voc\xEA deve ser a Ame, nova funcion\xE1ria da Binary Byllo! Prazer,
       eu me chamo Ana e sou pesquisadora de Intelig\xEAncia Artificial."
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   - speaker: Ame
     text: "Isso mesmo, sou estagi\xE1ria e estou animada para aprender."
-    characterSprite: {fileID: 21300000, guid: 1ca868d1661e97d4d909c383d2282963, type: 3}
+    characterSprite: {fileID: 21300000, guid: 5152a7983a6de624ba83eff2bceecad1, type: 3}
   - speaker: Ana
     text: "No meu escrit\xF3rio voc\xEA conseguir\xE1 aprender comigo e com os objetos
       presentes aqui, ent\xE3o explore bastante a sala! Al\xE9m de voc\xEA, o Blinky
       Bunny aprender\xE1 conforme voc\xEA interage com os objetos e comigo! Para
       come\xE7ar, me pediram para te explicar um pouco sobre Intelig\xEAncia Artificial.
       Vamos l\xE1?\r\n"
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
   - speaker: Ana
     text: "A Intelig\xEAncia Artificial, tamb\xE9m chamada de IA, \xE9 uma forma
       de sistemas realizarem tarefas que normalmente precisam de intelig\xEAncia
@@ -7474,7 +7474,7 @@ MonoBehaviour:
     text: "Os estudos e utiliza\xE7\xE3o da IA cresceram bastante ultimamente mas
       ela tem origem nos anos 1950, acredita? A IA demanda muitos recursos computacionais,
       ent\xE3o com o avan\xE7o dos computadores a IA foi bem desenvolvida"
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
   - speaker: Ana
     text: "A \xE1rea de Intelig\xEAncia Artificial possui sub\xE1reas, como Aprendizado
       de M\xE1quina e Aprendizado Profundo."
@@ -7482,7 +7482,7 @@ MonoBehaviour:
   - speaker: Ana
     text: "No Aprendizado de M\xE1quina, s\xE3o usados mecanismos para que os computadores
       sejam capazes de aprender sem serem explicitamente programados."
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
   - speaker: Ana
     text: "O Aprendizado Profundo simula um c\xE9rebro humano. Nos modelos de aprendizado
       profundo h\xE1 o uso de redes neurais artificiais que s\xE3o adaptadas com
@@ -7491,68 +7491,77 @@ MonoBehaviour:
   - speaker: Ana
     text: "Agora que voc\xEA sabe mais um pouquinho sobre IA, explore a sala para
       voc\xEA aprender mais sobre IA e a aplica\xE7\xE3o dela!"
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   preQuizLines:
   - speaker: Ana
     text: "Oi, Ame! Terminou de explorar a sala? Espero que voc\xEA tenha aprendido
       bastante!"
-    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ame
     text: Oi, Ana! Terminei sim, aprendi tanto!
-    characterSprite: {fileID: 21300000, guid: 1ca868d1661e97d4d909c383d2282963, type: 3}
+    characterSprite: {fileID: 21300000, guid: 5152a7983a6de624ba83eff2bceecad1, type: 3}
   - speaker: Ana
     text: "O Elano Vector pediu para que eu testasse um pouco o seu conhecimento
       antes de voc\xEA avan\xE7ar para as pr\xF3ximas etapas."
-    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
+    characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   - speaker: Ame
     text: Eita! Um teste?
-    characterSprite: {fileID: 21300000, guid: 1ca868d1661e97d4d909c383d2282963, type: 3}
+    characterSprite: {fileID: 21300000, guid: e931f52f96a215842aaf5d4b04944f88, type: 3}
   - speaker: Ana
     text: "N\xE3o se preocupe, para respond\xEA-las, voc\xEA pode pedir a ajuda do
       Blinky Bunny, que aprendeu com voc\xEA durante essa trajet\xF3ria!"
-    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
+    characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   - speaker: Ana
     text: "Cada pergunta vale 50 XP mas caso voc\xEA pe\xE7a ajuda do Blinky Bunny,
       voc\xEA ganhar\xE1 20XP."
     characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
   - speaker: Ame
     text: "O que acontece se eu n\xE3o passar?"
-    characterSprite: {fileID: 21300000, guid: 1ca868d1661e97d4d909c383d2282963, type: 3}
+    characterSprite: {fileID: 21300000, guid: b27d1d68549192e43a7cc4873bd95e6c, type: 3}
   - speaker: Ana
     text: "\u201CRelaxe, pois voc\xEA poder\xE1 refaz\xEA-lo se precisar! Tudo certo
       para come\xE7ar o teste?"
-    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ame
     text: Sim!
     characterSprite: {fileID: 21300000, guid: 1ca868d1661e97d4d909c383d2282963, type: 3}
   - speaker: Ana
     text: "Ent\xE3o vamos l\xE1!"
-    characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   quizQuestions:
-  - questionText: "Qual \xE9 a raiz quadrada de 25?"
-    optionA: 4
-    optionB: 5
-    optionC: 6
-    correctAnswer: 1
-    blinkyHint: "5 vezes 5 \xE9 25"
-  - questionText: "Qual \xE9 a raiz quadrada de 49?"
-    optionA: 4
-    optionB: 5
-    optionC: 7
-    correctAnswer: 2
-    blinkyHint: "7 vezes 7 \xE9 49"
-  - questionText: "Quanto \xE9 81+9?"
-    optionA: 90
-    optionB: 89
-    optionC: 91
+  - questionText: "Qual \xE9 o tipo de aprendizado de m\xE1quina no qual voc\xEA
+      precisa da resposta esperada para cada dado?"
+    optionA: Aprendizado supervisionado
+    optionB: "Aprendizado n\xE3o supervisionado"
+    optionC: 'Aprendizado profundo '
     correctAnswer: 0
-    blinkyHint: "9 + 1 \xE9 10, logo o um sobe, 1 mais 8 \xE9 9"
-  - questionText: "Quanto \xE9 54 divido por 6?"
-    optionA: 7
-    optionB: 8
-    optionC: 9
-    correctAnswer: 2
-    blinkyHint: " 60 menos 6 \xE9 54"
+    blinkyHint: "A Intelig\xEAncia Artificial, tamb\xE9m chamada de IA, \xE9 uma
+      forma de sistemas realizarem tarefas que normalmente precisam de intelig\xEAncia
+      Humana"
+  - questionText: "A Intelig\xEAncia Artificial possui sub\xE1reas, sendo elas:"
+    optionA: "Aprendizado de M\xE1quina e Aprendizado Profundo"
+    optionB: "Aprendizado Supervisionado e N\xE3o Supervisionado"
+    optionC: Reconhecimento de imagens e de fala
+    correctAnswer: 0
+    blinkyHint: "A \xE1rea de Intelig\xEAncia Artificial possui sub\xE1reas, como
+      Aprendizado de M\xE1quina e Aprendizado Profundo."
+  - questionText: "Qual \xE9 o tipo de aprendizado de m\xE1quina no qual voc\xEA
+      precisa da resposta esperada para cada dado?"
+    optionA: Aprendizado supervisionado
+    optionB: "Aprendizado n\xE3o supervisionado"
+    optionC: Aprendizado profundo
+    correctAnswer: 0
+    blinkyHint: "Aprendizado Supervisionado: Os dados s\xE3o rotulados, ou seja,
+      voc\xEA passa um dado para a IA j\xE1 com a resposta do esperada."
+  - questionText: "Quais s\xE3o as aplica\xE7\xF5es de Intelig\xEAncia Artificial
+      apresentadas dentro do computador?"
+    optionA: Reconhecimento de voz, fala e sons
+    optionB: "Reconhecimento fala, imagem e classifica\xE7\xE3o de e-mails"
+    optionC: Reconhecimento facial, checagem de e-mail e checagem de voz
+    correctAnswer: 1
+    blinkyHint: "No computador voc\xEA conseguiu ver exemplos de aplica\xE7\xE3o
+      de Intelig\xEAncia Artificial. Foram apresentados: Reconhecimento de fala,
+      Reconhecimento de imagem e Classifica\xE7\xE3o de emails (spam ou n\xE3o spam)."
   dialogueManager: {fileID: 1745232774}
   interactionPanel: {fileID: 1621247598}
   talkButton: {fileID: 1338751601}
@@ -11205,7 +11214,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2126778061
 MonoBehaviour:
@@ -11257,9 +11266,9 @@ MonoBehaviour:
   m_fontSize: 50
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
