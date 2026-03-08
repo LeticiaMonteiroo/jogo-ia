@@ -5451,7 +5451,7 @@ MonoBehaviour:
     text: "Crescimento exponencial... \xC9 lindo, n\xE3o \xE9?"
     characterSprite: {fileID: 21300000, guid: 8bc8231ca0d75d3478c39bee03514fd2, type: 3}
   - speaker: Ame
-    text: "Com licen\xE7a... Chefe? Sou a Ame."
+    text: "Com licen\xE7a... Voc\xEA \xE9 o Elano Vector, meu chefe? Sou a Ame."
     characterSprite: {fileID: 21300000, guid: 2f84b25ad63431848a788acd8434e976, type: 3}
   - speaker: Elano
     text: "Ah, voc\xEA deve ser a nova mente brilhante que contrataram\u2026 finalmente.
