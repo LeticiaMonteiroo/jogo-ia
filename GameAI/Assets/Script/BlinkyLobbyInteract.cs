@@ -38,7 +38,7 @@ public class BlinkyLobbyInteract : MonoBehaviour
     public void ReturnToLobby()
     {
         // Loads the Lobby scene
-        SceneManager.LoadScene(lobbySceneName); 
+        SceneManager.LoadScene("Lobby"); 
     }
 
     public void ClosePanel()
