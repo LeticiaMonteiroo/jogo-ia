@@ -7991,8 +7991,8 @@ MonoBehaviour:
   npcSaveID: Ana_Fase1
   lines:
   - speaker: Ana
-    text: "Ol\xE1! Voc\xEA deve ser a Ame, nova funcion\xE1ria da Binary Byllo! Prazer,
-      eu me chamo Ana e sou pesquisadora de Intelig\xEAncia Artificial."
+    text: "Ol\xE1! Voc\xEA deve ser a Ame, nova funcion\xE1ria da Binary Brylho!
+      Prazer, eu me chamo Ana e sou pesquisadora de Intelig\xEAncia Artificial."
     characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   - speaker: Ame
     text: "Isso mesmo, sou estagi\xE1ria e estou animada para aprender."
@@ -8051,15 +8051,15 @@ MonoBehaviour:
       Blinky Bunny, que aprendeu com voc\xEA durante essa trajet\xF3ria!"
     characterSprite: {fileID: 21300000, guid: 19bcce72a7c871a4fae2751df4c835b2, type: 3}
   - speaker: Ana
-    text: "Cada pergunta vale 50 XP mas caso voc\xEA pe\xE7a ajuda do Blinky Bunny,
-      voc\xEA ganhar\xE1 20XP."
+    text: "Pense no Blinky Bunny como um apoio. Ele pode dar uma dica quando necess\xE1rio,
+      mas demonstrar que voc\xEA sabe resolver sozinha vale mais na sua avalia\xE7\xE3o."
     characterSprite: {fileID: 21300000, guid: 2afd7e315b10935408bcdc291f4844c2, type: 3}
   - speaker: Ame
     text: "O que acontece se eu n\xE3o passar?"
     characterSprite: {fileID: 21300000, guid: b27d1d68549192e43a7cc4873bd95e6c, type: 3}
   - speaker: Ana
-    text: "\u201CRelaxe, pois voc\xEA poder\xE1 refaz\xEA-lo se precisar! Tudo certo
-      para come\xE7ar o teste?"
+    text: "Relaxe, pois voc\xEA poder\xE1 refaz\xEA-lo se precisar! Tudo certo para
+      come\xE7ar o teste?"
     characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ame
     text: Sim!
@@ -8121,7 +8121,7 @@ GameObject:
   - component: {fileID: 1457445345}
   - component: {fileID: 1457445344}
   m_Layer: 5
-  m_Name: BackToMenu
+  m_Name: GoToSettings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8201,7 +8201,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1457445345
 MonoBehaviour:
