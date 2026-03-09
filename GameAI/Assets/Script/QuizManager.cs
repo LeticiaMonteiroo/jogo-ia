@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class DialogueLine
@@ -67,12 +68,19 @@ public class QuizManager : MonoBehaviour
     private enum QuizState { None, Question, WrongAna, AskHelp, AmeAsking, BlinkyExplaining, CorrectAna, FailedAna, EndSummary, EndResult }
     private QuizState quizState = QuizState.None;
 
-    public void StartDialogue(List<DialogueLine> linesFromNPC, NPCDialogue npc)
+    public GameObject changeSceneButton;
+    private bool hasSceneTransition = false;
+    private string nextSceneName = "";
+
+    public void StartDialogue(List<DialogueLine> linesFromNPC, NPCDialogue npc, bool sceneTransition = false, string nextScene = "")
     {
         isQuizMode = false;
         currentLines = linesFromNPC;
         currentLineIndex = 0;
         currentActiveNPC = npc;
+
+        hasSceneTransition = sceneTransition;
+        nextSceneName = nextScene;
 
         gameObject.SetActive(true);
 
@@ -81,6 +89,8 @@ public class QuizManager : MonoBehaviour
 
         if (backButton != null) backButton.SetActive(false);
         if (nextButton != null) nextButton.SetActive(true);
+
+        changeSceneButton.SetActive(false);
 
         DisplayNextLine();
     }
@@ -110,18 +120,36 @@ public class QuizManager : MonoBehaviour
 
     public void EndDialogue()
     {
-        if (isStartingQuiz)
+        if (hasSceneTransition && changeSceneButton != null)
         {
-            isStartingQuiz = false;
-            StartQuizLoop();
-            return;
+            changeSceneButton.SetActive(true);
+            if (mainText != null) mainText.text = "";
+        }
+        else
+        {
+            if (dialogueBox != null) dialogueBox.SetActive(false);
+            if (isStartingQuiz)
+            {
+                isStartingQuiz = false;
+                StartQuizLoop();
+                return;
+            }
+
+            gameObject.SetActive(false);
+            if (currentActiveNPC != null)
+            {
+                currentActiveNPC.OnDialogueFinished();
+                currentActiveNPC = null;
+            }
         }
 
-        gameObject.SetActive(false);
-        if (currentActiveNPC != null)
+    }
+
+    public void GoToNextScene()
+    {
+        if (!string.IsNullOrEmpty(nextSceneName))
         {
-            currentActiveNPC.OnDialogueFinished();
-            currentActiveNPC = null;
+            SceneManager.LoadScene(nextSceneName);
         }
     }
 
@@ -414,5 +442,7 @@ public class QuizManager : MonoBehaviour
             currentActiveNPC.OnDialogueFinished();
             currentActiveNPC = null;
         }
+
+        changeSceneButton.SetActive(false);
     }
 }
