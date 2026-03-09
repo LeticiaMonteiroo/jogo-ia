@@ -2112,7 +2112,7 @@ Transform:
   m_GameObject: {fileID: 352286616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.66, y: 0.53, z: -10.0647}
+  m_LocalPosition: {x: 6.12, y: 0.53, z: -10.0647}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8108,6 +8108,8 @@ MonoBehaviour:
   xpRequiredForQuiz: 6
   isQuizUnlocked: 0
   xpForTalking: 1
+  hasSceneTransition: 0
+  nextSceneName: 
 --- !u!1 &1457445342
 GameObject:
   m_ObjectHideFlags: 0
@@ -10398,6 +10400,7 @@ MonoBehaviour:
   blinkyRect: {fileID: 1669908686}
   blinkyImage: {fileID: 1669908687}
   totalScore: 0
+  changeSceneButton: {fileID: 0}
 --- !u!1 &1747316309
 GameObject:
   m_ObjectHideFlags: 0
@@ -11534,7 +11537,7 @@ Transform:
   m_GameObject: {fileID: 1920212951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.61, y: 0.79, z: -10.064698}
+  m_LocalPosition: {x: 5.41, y: 0.79, z: -10.064698}
   m_LocalScale: {x: 4, y: 4, z: 1.6062}
   m_ConstrainProportionsScale: 0
   m_Children: []
