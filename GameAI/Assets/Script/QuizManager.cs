@@ -124,10 +124,13 @@ public class QuizManager : MonoBehaviour
         {
             changeSceneButton.SetActive(true);
             if (mainText != null) mainText.text = "";
+
+            if (nextButton != null) nextButton.SetActive(false);
         }
         else
         {
             if (dialogueBox != null) dialogueBox.SetActive(false);
+            if (changeSceneButton != null) changeSceneButton.SetActive(false);
             if (isStartingQuiz)
             {
                 isStartingQuiz = false;
@@ -443,6 +446,7 @@ public class QuizManager : MonoBehaviour
             currentActiveNPC = null;
         }
 
-        changeSceneButton.SetActive(false);
+        hasSceneTransition = false; 
+        if (changeSceneButton != null) changeSceneButton.SetActive(false);
     }
 }
