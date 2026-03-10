@@ -90,7 +90,10 @@ public class QuizManager : MonoBehaviour
         if (backButton != null) backButton.SetActive(false);
         if (nextButton != null) nextButton.SetActive(true);
 
-        changeSceneButton.SetActive(false);
+        if (changeSceneButton != null)
+        {
+            changeSceneButton.SetActive(false);
+        }
 
         DisplayNextLine();
     }
@@ -446,7 +449,7 @@ public class QuizManager : MonoBehaviour
             currentActiveNPC = null;
         }
 
-        hasSceneTransition = false; 
+        hasSceneTransition = false;
         if (changeSceneButton != null) changeSceneButton.SetActive(false);
     }
 }
