@@ -273,7 +273,7 @@ public class QuizManager : MonoBehaviour
 
             if (totalScore >= 100)
             {
-                if (mainText != null) mainText.text = "Parabéns, Ame! Você demonstrou um domínio excepcional e conquistou " + totalScore + " XP. É com muito orgulho que anuncio sua promoção oficial para Desenvolvedora Pleno! O seu futuro é brilhante!";
+                if (mainText != null) mainText.text = "Parabéns, Ame! Em breve você aprenderá mais sobre inteligência artificial e o seu impacto! Por agora pode aguardar os próximos desafios que virão.";
             }
             else
             {
