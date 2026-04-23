@@ -39,6 +39,8 @@ public class ComputerInteraction : MonoBehaviour
 
     [Header("XP Configuration")]
     public int xpAmount = 2; 
+
+    public int topics = 2;
     private bool hasGivenXP = false;
 
     // --- VARIABLES TO TRACK READING ---
@@ -155,6 +157,10 @@ public class ComputerInteraction : MonoBehaviour
     public void CloseComputerAndReward()
     {
         computerPanel.SetActive(false); 
+
+        if (topics < 3){
+            readTopic3 = true;
+        }
 
         if (!hasGivenXP && readTopic1 && readTopic2 && readTopic3)
         {

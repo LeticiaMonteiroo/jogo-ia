@@ -7,7 +7,7 @@ public class BlinkyLobbyInteract : MonoBehaviour
     public GameObject blinkyLobbyPanel; // Drag the Blinky text box here
     
     [Header("Scene Configuration")]
-    public string lobbySceneName = "Lobby"; // Type the EXACT name of the Lobby scene here
+    public string lobbySceneName; // Type the EXACT name of the Lobby scene here
 
     private void Start()
     {

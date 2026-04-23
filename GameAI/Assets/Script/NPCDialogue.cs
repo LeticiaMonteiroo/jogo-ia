@@ -30,6 +30,10 @@ public class NPCDialogue : MonoBehaviour
     public int xpForTalking = 1;      
     private bool hasGivenXP = false;  
 
+    [Header("Transição de Cena")]
+    public bool hasSceneTransition = false;
+    public string nextSceneName = ""; 
+
     private void Start()
     {
         if (interactionPanel != null) interactionPanel.SetActive(false);
@@ -64,7 +68,7 @@ public class NPCDialogue : MonoBehaviour
         interactionPanel.SetActive(false); 
         if (dialogueManager != null)
         {
-            dialogueManager.StartDialogue(lines, this); 
+            dialogueManager.StartDialogue(lines, this, hasSceneTransition, nextSceneName); 
         }
     }
 
