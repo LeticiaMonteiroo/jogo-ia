@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI; 
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class NPCDialogue : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class NPCDialogue : MonoBehaviour
     public List<DialogueLine> lines; 
 
     [Header("Quiz Content (O Quiz)")]
-    public List<DialogueLine> preQuizLines;  // <-- NOVO: A fala da Ana antes do Quiz
-    public List<QuizQuestion> quizQuestions; // As perguntas
+    public List<DialogueLine> preQuizLines;  
+    public List<QuizQuestion> quizQuestions; 
 
     [Header("UI Reference")]
     public QuizManager dialogueManager; 
@@ -34,38 +35,33 @@ public class NPCDialogue : MonoBehaviour
     public bool hasSceneTransition = false;
     public string nextSceneName = ""; 
 
+    [Header("Communication Events")]
+    public UnityEvent onCloseDialogue; 
+
     private void Start()
     {
         if (interactionPanel != null) interactionPanel.SetActive(false);
         if (PlayerPrefs.GetInt(npcSaveID + "_HasGivenXP", 0) == 1) hasGivenXP = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OpenInteractionMenu()
     {
-        if (collision.CompareTag("Player"))
+        if (XPManager.instance != null && XPManager.instance.currentXP >= xpRequiredForQuiz)
         {
-            if (XPManager.instance != null && XPManager.instance.currentXP >= xpRequiredForQuiz)
-                isQuizUnlocked = true; 
-
-            if (interactionPanel != null)
-            {
-                interactionPanel.SetActive(true);
-                if (quizButton != null) quizButton.interactable = isQuizUnlocked; 
-            }
+            isQuizUnlocked = true; 
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        if (interactionPanel != null)
         {
-            if (interactionPanel != null) interactionPanel.SetActive(false);
+            interactionPanel.SetActive(true);
+            if (quizButton != null) quizButton.interactable = isQuizUnlocked; 
         }
     }
 
     public void OnTalkClicked()
     {
-        interactionPanel.SetActive(false); 
+        if (interactionPanel != null) interactionPanel.SetActive(false); 
+        
         if (dialogueManager != null)
         {
             dialogueManager.StartDialogue(lines, this, hasSceneTransition, nextSceneName); 
@@ -75,11 +71,11 @@ public class NPCDialogue : MonoBehaviour
     public void OnQuizClicked()
     {
         if (!isQuizUnlocked) return; 
-        interactionPanel.SetActive(false); 
+        
+        if (interactionPanel != null) interactionPanel.SetActive(false); 
         
         if (dialogueManager != null)
         {
-            // MUDOU AQUI: Passamos a fala introdutória E as perguntas!
             dialogueManager.StartQuiz(preQuizLines, quizQuestions, this); 
         }
     }
@@ -88,7 +84,7 @@ public class NPCDialogue : MonoBehaviour
     {
         if (!hasGivenXP)
         {
-            XPManager.instance.AddXP(xpForTalking);
+            if (XPManager.instance != null) XPManager.instance.AddXP(xpForTalking);
             hasGivenXP = true;
             PlayerPrefs.SetInt(npcSaveID + "_HasGivenXP", 1);
             PlayerPrefs.Save();
@@ -98,5 +94,7 @@ public class NPCDialogue : MonoBehaviour
     public void CloseInteraction()
     {
         if (interactionPanel != null) interactionPanel.SetActive(false);
+        
+        onCloseDialogue?.Invoke(); 
     }
 }

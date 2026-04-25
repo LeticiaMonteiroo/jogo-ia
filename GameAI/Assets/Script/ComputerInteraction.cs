@@ -1,26 +1,24 @@
 using UnityEngine;
-using UnityEngine.UI; // Necessário para o Button
+using UnityEngine.UI; 
 using TMPro;
+using UnityEngine.Events;
 
 public class ComputerInteraction : MonoBehaviour
 {
     [Header("Save Identification")]
     public string objectSaveID = "Computer_Phase1"; 
 
-    [Header("Visual Configuration")]
-    public GameObject glowObject; 
-
     [Header("UI Screens Configuration")]
     public GameObject computerPanel; 
     public GameObject menuScreen;    
     public GameObject detailScreen;  
 
+    [Header("Botão de Fechar")]
+    public Button closeButton; 
+
     [Header("UI Text References")]
     public TextMeshProUGUI titleTextUI; 
     public TextMeshProUGUI bodyTextUI;  
-
-    [Header("Botão Universal")]
-    public Button btnClose; // <-- O nosso botão X!
 
     [Header("Topic 1 Content")]
     public string title1 = "Reconhecimento de fala";
@@ -34,26 +32,21 @@ public class ComputerInteraction : MonoBehaviour
     public string title3 = "Classificação de emails";
     [TextArea(3, 6)] public string body3 = "Digite a explicação aqui...";
 
-    [Header("Distance Zones")]
-    public float distanceToOpen = 1.5f; 
-
     [Header("XP Configuration")]
     public int xpAmount = 2; 
-
+    
     public int topics = 2;
-    private bool hasGivenXP = false;
 
-    // --- VARIABLES TO TRACK READING ---
+    private bool hasGivenXP = false;
     private bool readTopic1 = false;
     private bool readTopic2 = false;
     private bool readTopic3 = false;
 
-    private Transform playerTransform; 
-    private bool hasOpenedThisTime = false; 
+    [Header("Communication Events")]
+    public UnityEvent onCloseComputer; 
 
     void Start()
     {
-        if (glowObject != null) glowObject.SetActive(false);
         if (computerPanel != null) computerPanel.SetActive(false);
 
         if (PlayerPrefs.GetInt(objectSaveID + "_HasGivenXP", 0) == 1)
@@ -65,62 +58,19 @@ public class ComputerInteraction : MonoBehaviour
         }
     }
 
-    void Update()
+    public void OpenComputer()
     {
-        if (playerTransform != null && !hasOpenedThisTime && computerPanel != null)
+        if (computerPanel != null) computerPanel.SetActive(true);
+        if (menuScreen != null) menuScreen.SetActive(true);
+        if (detailScreen != null) detailScreen.SetActive(false);
+
+        if (closeButton != null)
         {
-            float currentDistance = Vector2.Distance(transform.position, playerTransform.position);
-
-            if (currentDistance <= distanceToOpen)
-            {
-                // --- A MÁGICA DO BOTÃO UNIVERSAL ---
-                if (btnClose != null)
-                {
-                    // 1. Faz o botão esquecer qualquer objeto que ele fechou antes
-                    btnClose.onClick.RemoveAllListeners(); 
-                    
-                    // 2. Avisa o botão que agora ele deve conversar com ESTE PC aqui
-                    btnClose.onClick.AddListener(CloseComputerAndReward); 
-                }
-                // -----------------------------------
-
-                OpenComputer();
-            }
+            closeButton.onClick.RemoveAllListeners(); 
+            closeButton.onClick.AddListener(CloseComputerAndReward); 
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (glowObject != null) glowObject.SetActive(true);
-            playerTransform = collision.transform; 
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (glowObject != null) glowObject.SetActive(false);
-            if (computerPanel != null) computerPanel.SetActive(false);
-            
-            playerTransform = null; 
-            hasOpenedThisTime = false; 
-        }
-    }
-
-    private void OpenComputer()
-    {
-        computerPanel.SetActive(true);
-        
-        menuScreen.SetActive(true);
-        if(detailScreen != null) detailScreen.SetActive(false);
-
-        hasOpenedThisTime = true; 
-    }
-
-    // --- FUNCTIONS FOR THE 3 MENU BUTTONS ---
     public void OpenTopic1()
     {
         readTopic1 = true; 
@@ -144,31 +94,38 @@ public class ComputerInteraction : MonoBehaviour
         if (titleTextUI != null) titleTextUI.text = title;
         if (bodyTextUI != null) bodyTextUI.text = body;
         
-        menuScreen.SetActive(false);
-        detailScreen.SetActive(true);
+        if (menuScreen != null) menuScreen.SetActive(false);
+        if (detailScreen != null) detailScreen.SetActive(true);
     }
 
     public void BackToMenu()
     {
-        detailScreen.SetActive(false);
-        menuScreen.SetActive(true);
+        if (detailScreen != null) detailScreen.SetActive(false);
+        if (menuScreen != null) menuScreen.SetActive(true);
     }
 
     public void CloseComputerAndReward()
     {
-        computerPanel.SetActive(false); 
+        if (computerPanel != null) computerPanel.SetActive(false); 
 
-        if (topics < 3){
+        if (topics < 3)
+        {
             readTopic3 = true;
         }
 
         if (!hasGivenXP && readTopic1 && readTopic2 && readTopic3)
         {
-            XPManager.instance.AddXP(xpAmount);
+            if (XPManager.instance != null)
+            {
+                XPManager.instance.AddXP(xpAmount);
+            }
             hasGivenXP = true;
             PlayerPrefs.SetInt(objectSaveID + "_HasGivenXP", 1);
             PlayerPrefs.Save();
+            
             Debug.Log("Leu os 3 tópicos! 2 XP adicionados.");
         }
+
+        onCloseComputer?.Invoke(); 
     }
 }
