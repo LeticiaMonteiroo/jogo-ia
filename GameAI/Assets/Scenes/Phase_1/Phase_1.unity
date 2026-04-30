@@ -8943,7 +8943,7 @@ MonoBehaviour:
     text: "A Intelig\xEAncia Artificial, tamb\xE9m chamada de IA, \xE9 uma forma
       de sistemas realizarem tarefas que normalmente precisam de intelig\xEAncia
       humana"
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ana
     text: "Os estudos e utiliza\xE7\xE3o da IA cresceram bastante ultimamente mas
       ela tem origem nos anos 1950, acredita? A IA demanda muitos recursos computacionais,
@@ -8952,7 +8952,7 @@ MonoBehaviour:
   - speaker: Ana
     text: "A \xE1rea de Intelig\xEAncia Artificial possui sub\xE1reas, como Aprendizado
       de M\xE1quina e Aprendizado Profundo."
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ana
     text: "No Aprendizado de M\xE1quina, s\xE3o usados mecanismos para que os computadores
       sejam capazes de aprender sem serem explicitamente programados."
@@ -8961,7 +8961,7 @@ MonoBehaviour:
     text: "O Aprendizado Profundo simula um c\xE9rebro humano. Nos modelos de aprendizado
       profundo h\xE1 o uso de redes neurais artificiais que s\xE3o adaptadas com
       os dados. Mas n\xE3o se preocupe com isso, esse \xE9 um t\xF3pico mais avan\xE7ado!"
-    characterSprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+    characterSprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   - speaker: Ana
     text: "Agora que voc\xEA sabe mais um pouquinho sobre IA, explore a sala para
       voc\xEA aprender mais sobre IA e a aplica\xE7\xE3o dela!"
@@ -12131,7 +12131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 27040ba226af9e44fbc6dba7e8e34940, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 527237ff1bf0f6943ae87a071e53d2d9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
